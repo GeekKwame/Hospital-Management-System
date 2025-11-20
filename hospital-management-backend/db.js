@@ -1,14 +1,15 @@
 const { Sequelize } = require("sequelize");
 const config = require("./config");
 
-const sequelize = new Sequelize(config.DB.database, config.DB.user, config.DB.password, {
+const baseOptions = {
     host: config.DB.host,
-    dialect: "postgres",
+    port: config.DB.port,
+    dialect: config.DB.dialect,
     logging: false
-});
+};
 
-sequelize.authenticate()
-    .then(() => console.log("✅ Database connected..."))
-    .catch(err => console.error("❌ Database connection failed:", err));
+const sequelize = config.DB.url
+    ? new Sequelize(config.DB.url, { ...baseOptions })
+    : new Sequelize(config.DB.database, config.DB.user, config.DB.password, baseOptions);
 
 module.exports = sequelize;
