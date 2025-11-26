@@ -12,12 +12,13 @@ import {
   TextField,
 } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContext';
+import { useThemeMode } from '../../contexts/ThemeContext';
 
 const SettingsPage = () => {
   const { user } = useAuth();
+  const { mode, toggleColorMode, isDarkMode } = useThemeMode();
   const [notifications, setNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
 
   return (
     <Box>
@@ -68,16 +69,16 @@ const SettingsPage = () => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={darkMode}
-                  onChange={(e) => setDarkMode(e.target.checked)}
+                  checked={isDarkMode}
+                  onChange={toggleColorMode}
                 />
               }
               label="Dark Mode"
               sx={{ mb: 2, display: 'block' }}
             />
 
-            <Alert severity="info" sx={{ mt: 2 }}>
-              Dark mode theme coming soon
+            <Alert severity="success" sx={{ mt: 2 }}>
+              Theme preference saved automatically
             </Alert>
           </Paper>
         </Grid>

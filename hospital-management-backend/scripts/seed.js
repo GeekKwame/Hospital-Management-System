@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const bcrypt = require("bcryptjs");
 const sequelize = require("../db");
-const { User, Room, Appointment, Admission } = require("../models");
+const { User, Room, Appointment, Admission, Prescription } = require("../models");
 
 const seedUsers = async () => {
   const password = await bcrypt.hash("Password123!", 10);
@@ -11,7 +11,7 @@ const seedUsers = async () => {
     {
       first_name: "Alice",
       last_name: "Admin",
-      email: "admin@hospital.local",
+      email: "admin@hospital.com",
       phone: "555-0001",
       role: "Admin",
       password_hash: password
@@ -19,7 +19,7 @@ const seedUsers = async () => {
     {
       first_name: "Derek",
       last_name: "Doctor",
-      email: "doctor@hospital.local",
+      email: "doctor1@hospital.com",
       phone: "555-1001",
       role: "Doctor",
       password_hash: password
@@ -27,7 +27,7 @@ const seedUsers = async () => {
     {
       first_name: "Nina",
       last_name: "Nurse",
-      email: "nurse@hospital.local",
+      email: "nurse@hospital.com",
       phone: "555-2001",
       role: "Nurse",
       password_hash: password
@@ -35,7 +35,7 @@ const seedUsers = async () => {
     {
       first_name: "Patrick",
       last_name: "Patient",
-      email: "patient@hospital.local",
+      email: "patient@hospital.com",
       phone: "555-3001",
       role: "Patient",
       password_hash: password
@@ -94,6 +94,30 @@ const seedAdmissions = async () => {
   });
 };
 
+const seedPrescriptions = async () => {
+  const doctor = await User.findOne({ where: { role: "Doctor" } });
+  const patient = await User.findOne({ where: { role: "Patient" } });
+  const appointment = await Appointment.findOne();
+
+  if (!doctor || !patient) return;
+
+  await Prescription.findOrCreate({
+    where: {
+      doctor_id: doctor.user_id,
+      patient_id: patient.user_id,
+      medication: "Paracetamol"
+    },
+    defaults: {
+      appointment_id: appointment ? appointment.appointment_id : null,
+      dosage: "500mg",
+      frequency: "Twice daily",
+      duration: "7 days",
+      instructions: "Take with food. Do not exceed recommended dosage.",
+      status: "Active"
+    }
+  });
+};
+
 const run = async () => {
   try {
     await sequelize.authenticate();
@@ -103,6 +127,7 @@ const run = async () => {
     await seedRooms();
     await seedAppointments();
     await seedAdmissions();
+    await seedPrescriptions();
 
     console.log("✅ Seed data inserted");
   } catch (error) {

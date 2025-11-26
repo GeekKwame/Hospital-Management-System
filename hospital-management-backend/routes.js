@@ -6,6 +6,7 @@ const roomRoutes = require("./routes/roomRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const admissionRoutes = require("./routes/admissionRoutes");
+const prescriptionRoutes = require("./routes/prescriptionRoutes");
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.use("/rooms", roomRoutes);
 router.use("/admin", adminRoutes);
 router.use("/analytics", analyticsRoutes);
 router.use("/admissions", admissionRoutes);
+router.use("/prescriptions", prescriptionRoutes);
 
 module.exports = router;

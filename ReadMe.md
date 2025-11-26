@@ -82,6 +82,8 @@ NODE_ENV=development
 ```
 
 > **Alternative:** Use `DB_URL=postgres://user:pass@host:5432/dbname` instead of individual DB variables.
+> 
+> **Note:** See `hospital-management-backend/.env.example` for a complete example with all available options.
 
 ### Step 3: Set Up Database
 
@@ -131,6 +133,8 @@ Create `hospital-management-frontend/.env` if your backend is not at `http://loc
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```
+
+> **Note:** See `hospital-management-frontend/.env.example` for configuration details.
 
 ### Step 3: Start Development Server
 
@@ -225,11 +229,21 @@ This starts:
 - ✅ Settings page
 - ✅ Security center (password reset, audit logs for admins)
 
+### Prescription Management
+- ✅ Create, view, update, and delete prescriptions
+- ✅ Link prescriptions to appointments
+- ✅ Prescription details (medication, dosage, frequency, duration, instructions)
+- ✅ Prescription status management (Active, Completed, Cancelled)
+- ✅ Role-based access control (Doctors can prescribe, Patients can view their own)
+- ✅ Full CRUD operations with proper validation
+
 ### UI/UX
 - ✅ Material-UI design system
+- ✅ **Dark Mode support** with theme persistence
 - ✅ Responsive design (mobile-friendly)
 - ✅ Modern, clean interface
 - ✅ Loading states and error handling
+- ✅ Theme toggle in header and settings
 
 ---
 
@@ -283,6 +297,26 @@ This starts:
 - `GET /api/admissions` - Get all admissions
 - `POST /api/admissions` - Create admission
 - `PATCH /api/admissions/:id/status` - Update admission status
+
+### Prescription Endpoints
+
+- `GET /api/prescriptions` - Get all prescriptions (with optional filters: patient_id, doctor_id, status)
+- `GET /api/prescriptions/:id` - Get prescription by ID
+- `POST /api/prescriptions` - Create prescription (Admin, Doctor)
+  ```json
+  {
+    "doctor_id": 2,
+    "patient_id": 4,
+    "appointment_id": 1,
+    "medication": "Paracetamol",
+    "dosage": "500mg",
+    "frequency": "Twice daily",
+    "duration": "7 days",
+    "instructions": "Take with food"
+  }
+  ```
+- `PUT /api/prescriptions/:id` - Update prescription (Admin, Doctor)
+- `DELETE /api/prescriptions/:id` - Delete prescription (Admin, Doctor)
 
 ### Analytics Endpoints
 
@@ -413,6 +447,14 @@ After running `npm run seed`, you can login with:
 
 ---
 
+## 🆕 Recent Enhancements
+
+- ✅ **Complete Prescription Management System** - Full CRUD operations with role-based access
+- ✅ **Dark Mode Theme** - Toggle between light and dark themes with persistent preferences
+- ✅ **Enhanced UI Components** - Improved prescription forms and data tables
+- ✅ **Environment Configuration** - Added .env.example files for easy setup
+- ✅ **Seed Data Updates** - Seed script now includes sample prescriptions
+
 ## 🚀 Future Enhancements
 
 - [ ] Real-time notifications (Socket.IO)
@@ -420,10 +462,10 @@ After running `npm run seed`, you can login with:
 - [ ] Advanced reporting and analytics
 - [ ] Payment integration
 - [ ] Medical records management
-- [ ] Prescription management (full implementation)
 - [ ] CI/CD pipeline
 - [ ] Multi-language support
-- [ ] Dark mode theme
+- [ ] Enhanced search and filtering
+- [ ] Export functionality (PDF, CSV)
 
 ---
 

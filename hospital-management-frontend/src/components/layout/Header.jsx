@@ -20,11 +20,15 @@ import {
   Person as PersonIcon,
   Settings as SettingsIcon,
   Logout as LogoutIcon,
+  LightMode as LightModeIcon,
+  DarkMode as DarkModeIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
+import { useThemeMode } from '../../contexts/ThemeContext';
 
 const Header = ({ handleDrawerToggle }) => {
   const { user, logout } = useAuth();
+  const { toggleColorMode, isDarkMode } = useThemeMode();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -77,6 +81,12 @@ const Header = ({ handleDrawerToggle }) => {
         </Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip title={isDarkMode ? 'Light Mode' : 'Dark Mode'}>
+            <IconButton color="inherit" onClick={toggleColorMode}>
+              {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+          </Tooltip>
+          
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
